@@ -30,3 +30,7 @@ spring:
   output:
     ansi:
       enabled: always
+
+reports:
+  client:
+    url: http://localhost:8082/reports/

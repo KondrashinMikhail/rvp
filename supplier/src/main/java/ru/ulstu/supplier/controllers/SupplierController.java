@@ -2,8 +2,10 @@ package ru.ulstu.supplier.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import ru.ulstu.supplier.feign.ReportsClient;
 import ru.ulstu.supplier.models.DTO.SupplierCutDTO;
 import ru.ulstu.supplier.models.DTO.SupplierDTO;
+import ru.ulstu.supplier.models.DTO.SupplierNumeratedDTO;
 import ru.ulstu.supplier.services.SupplierService;
 
 import java.util.List;
@@ -13,13 +15,14 @@ import java.util.List;
 @AllArgsConstructor
 public class SupplierController {
     private final SupplierService service;
+    private final ReportsClient reportsClient;
 
     @PostMapping("/save")
     public SupplierDTO save(@RequestBody SupplierDTO supplier) {
         return service.addNew(supplier);
     }
 
-    @GetMapping("/get")
+    @GetMapping("/get/all")
     public List<SupplierDTO> getAll() {
         return service.getAll();
     }
@@ -47,5 +50,22 @@ public class SupplierController {
     @DeleteMapping("/delete/{id}")
     public SupplierDTO delete(@PathVariable Long id) {
         return service.delete(id);
+    }
+
+
+
+    @GetMapping("/get/all/report")
+    public List<SupplierNumeratedDTO> getAllReport() {
+        return reportsClient.getAllReport();
+    }
+
+    @GetMapping("/get/active/report")
+    public List<SupplierNumeratedDTO> getActiveReport() {
+        return reportsClient.getActiveReport();
+    }
+
+    @GetMapping("/get/disabled/report")
+    public List<SupplierNumeratedDTO> getADisabledReport() {
+        return reportsClient.getDisabledReport();
     }
 }
