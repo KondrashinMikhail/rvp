@@ -1,0 +1,69 @@
+version: '3.8'
+services:
+
+  postgres:
+    image: postgres
+    container_name: postgres
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5432:5432"
+    networks:
+      backend:
+        aliases:
+          - postgres
+    restart: unless-stopped
+
+  supplier:
+    container_name: supplier
+    image: supplier:latest
+    ports:
+      - "8081:8081"
+    networks:
+      backend:
+        aliases:
+          - "supplier"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  reports:
+    container_name: reports
+    image: reports:latest
+    ports:
+      - "8082:8082"
+    networks:
+      backend:
+        aliases:
+          - "reports"
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  gateway:
+    container_name: gateway
+    image: gateway:latest
+    ports:
+      - "8080:8080"
+    networks:
+      backend:
+        aliases:
+          - "gateway"
+    restart: unless-stopped
+
+networks:
+  postgres:
+    driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  postgres:
+    driver: local
+  supplier:
+  reports:
+  gateway:

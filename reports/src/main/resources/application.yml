@@ -1,0 +1,33 @@
+server:
+  port: 8082
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-exception: false
+spring:
+  liquibase:
+    enabled: true
+  application:
+    name: reports
+  datasource:
+    password: postgres
+    username: postgres
+    url: jdbc:postgresql://postgres:5432/postgres
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+  servlet:
+    multipart:
+      enabled: true
+      location: ${java.io.tmpdir}
+      max-file-size: 120800KB
+      max-request-size: 150000KB
+  output:
+    ansi:
+      enabled: always
+
