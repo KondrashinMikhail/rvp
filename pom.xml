@@ -14,6 +14,7 @@
     <module>supplier</module>
     <module>reports</module>
     <module>gateway</module>
+    <module>filestorage</module>
   </modules>
 
   <properties>

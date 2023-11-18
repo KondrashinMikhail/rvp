@@ -31,6 +31,7 @@ services:
           - "supplier"
     depends_on:
       - postgres
+      - reports
     restart: unless-stopped
 
   reports:
@@ -46,6 +47,7 @@ services:
           - "reports"
     depends_on:
       - postgres
+      - filestorage
     restart: unless-stopped
 
   gateway:
@@ -59,6 +61,38 @@ services:
           - "gateway"
     restart: unless-stopped
 
+  filestorage:
+    container_name: filestorage
+    image: filestorage:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    ports:
+      - "8083:8083"
+    networks:
+      backend:
+        aliases:
+          - "filestorage"
+    depends_on:
+      - minio
+    restart: unless-stopped
+
+  minio:
+    container_name: minio
+    image: minio/minio:latest
+    command: server --console-address ":9001" /data/
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: kondrashin
+      MINIO_ROOT_PASSWORD: kondrashin123
+    volumes:
+      - minio:/data
+    networks:
+      backend:
+        aliases:
+          - "minio"
+
 networks:
   postgres:
     driver: bridge
@@ -71,3 +105,5 @@ volumes:
   supplier:
   reports:
   gateway:
+  filestorage:
+  minio:

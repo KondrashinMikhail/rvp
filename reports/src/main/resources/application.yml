@@ -31,3 +31,6 @@ spring:
     ansi:
       enabled: always
 
+filestorage:
+  client:
+    url: http://localhost:8083/filestorage/

@@ -30,3 +30,7 @@ spring:
   output:
     ansi:
       enabled: always
+
+filestorage:
+  client:
+    url: http://filestorage:8083/filestorage/

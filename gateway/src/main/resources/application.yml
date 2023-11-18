@@ -13,11 +13,17 @@ spring:
             - Path=/supplier/**
           filters:
             - RewritePath=/supplier/(?<path>.*), /$\{path}
-#            - RemoveRequestHeader= Cookie, Set-Cookie
+
 #        - id: reports
 #          uri: http://reports:8082
 #          predicates:
 #            - Path=/reports/**
 #          filters:
 #            - RewritePath=/reports/(?<path>.*), /$\{path}
-##            - RemoveRequestHeader= Cookie, Set-Cookie
+#
+#        - id: filestorage
+#          uri: http://filestorage:8083
+#          predicates:
+#            - Path=/filestorage/**
+#          filters:
+#            - RewritePath=/filestorage/(?<path>.*), /$\{path}

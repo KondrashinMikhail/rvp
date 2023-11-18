@@ -1,0 +1,20 @@
+server:
+  port: 8083
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-exception: false
+spring:
+  application:
+    name: filestorage
+  output:
+    ansi:
+      enabled: always
+
+minio:
+  access:
+    name: kondrashin
+    secret: kondrashin123
+  url: http://minio:9000
+
+
