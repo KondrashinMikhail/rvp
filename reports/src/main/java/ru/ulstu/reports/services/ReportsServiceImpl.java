@@ -32,7 +32,7 @@ public class ReportsServiceImpl implements ReposrtsService {
         List<SupplierNumeratedDTO> list = repo.findAllByIsActive(isActive).stream().map(mapper::mapToNumeratedDTO).toList();
         AtomicInteger i = new AtomicInteger(1);
         list.forEach(elem -> elem.setNum(i.getAndIncrement()));
-        String fileName = "Get-By-Active-" + isActive + "-" + LocalDateTime.now();
+        String fileName = String.format("Get-By-Active-%s-%s.csv", isActive, LocalDateTime.now());
         filestorageClient.uploadFile(FileDTO.builder()
                 .bytes(convertToByte(writeCsv(list), fileName))
                 .filename(fileName)
@@ -45,7 +45,7 @@ public class ReportsServiceImpl implements ReposrtsService {
         List<SupplierNumeratedDTO> list = repo.findAll().stream().map(mapper::mapToNumeratedDTO).toList();
         AtomicInteger i = new AtomicInteger(1);
         list.forEach(elem -> elem.setNum(i.getAndIncrement()));
-        String fileName = "Get-All-" + LocalDateTime.now();
+        String fileName = String.format("Get-All-%s.csv", LocalDateTime.now());
         filestorageClient.uploadFile(FileDTO.builder()
                 .bytes(convertToByte(writeCsv(list), fileName))
                 .filename(fileName)
