@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: ${POSTGRES_USER:-postgres}
       PGDATA: /data/postgres
     volumes:
-      - postgres:/data/postgres
+      - postgres:/data
     ports:
       - "5432:5432"
     networks:
@@ -28,7 +28,7 @@ services:
     networks:
       backend:
         aliases:
-          - "supplier"
+          - supplier
     depends_on:
       - postgres
       - reports
@@ -44,21 +44,24 @@ services:
     networks:
       backend:
         aliases:
-          - "reports"
+          - reports
     depends_on:
       - postgres
       - filestorage
+      - rabbitmq
     restart: unless-stopped
 
   gateway:
     container_name: gateway
     image: gateway:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
     ports:
       - "8080:8080"
     networks:
       backend:
         aliases:
-          - "gateway"
+          - gateway
     restart: unless-stopped
 
   filestorage:
@@ -71,9 +74,10 @@ services:
     networks:
       backend:
         aliases:
-          - "filestorage"
+          - filestorage
     depends_on:
       - minio
+      - rabbitmq
     restart: unless-stopped
 
   minio:
@@ -91,11 +95,25 @@ services:
     networks:
       backend:
         aliases:
-          - "minio"
+          - minio
+    restart: unless-stopped
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq:3-management-alpine
+    environment:
+      RABBITMQ_DEFAULT_USER: kondrashin
+      RABBITMQ_DEFAULT_PASS: kondrashin123
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks:
+      backend:
+        aliases:
+          - rabbitmq
+    restart: unless-stopped
 
 networks:
-  postgres:
-    driver: bridge
   backend:
     driver: bridge
 
@@ -107,3 +125,5 @@ volumes:
   gateway:
   filestorage:
   minio:
+    driver: local
+  rabbitmq:

@@ -10,6 +10,6 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 public class FileDTO {
-    private final byte[] bytes;
-    private final String filename;
+    private byte[] bytes;
+    private String filename;
 }
