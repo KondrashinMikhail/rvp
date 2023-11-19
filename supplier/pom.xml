@@ -31,13 +31,11 @@
         </profile>
     </profiles>
     <dependencies>
-
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
             <version>2.2</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -61,7 +59,6 @@
             <artifactId>liquibase-core</artifactId>
             <version>4.20.0</version>
         </dependency>
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -163,5 +160,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

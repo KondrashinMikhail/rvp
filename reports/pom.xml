@@ -16,7 +16,6 @@
     <properties>
         <java.version>17</java.version>
     </properties>
-
     <profiles>
         <profile>
             <id>build-docker-image</id>
@@ -180,5 +179,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

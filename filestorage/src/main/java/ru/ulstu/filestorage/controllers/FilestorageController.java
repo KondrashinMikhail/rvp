@@ -15,7 +15,7 @@ import java.util.List;
 @RequestMapping("/filestorage")
 public class FilestorageController {
     private final MinioAdapter minioAdapter;
-    private final String defaultBucketName = "default";
+    public static final String defaultBucketName = "default";
 
     public FilestorageController(MinioAdapter minioAdapter) {
         this.minioAdapter = minioAdapter;
