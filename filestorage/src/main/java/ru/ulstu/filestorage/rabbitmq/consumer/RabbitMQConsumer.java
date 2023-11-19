@@ -12,6 +12,10 @@ import static ru.ulstu.filestorage.rabbitmq.config.RabbitConfig.QUEUE;
 public class RabbitMQConsumer {
     @RabbitListener(queues = QUEUE)
     public void processMyQueue(String message) {
-        System.out.printf("Received from myQueue : %s ", new String(message.getBytes()));
+
+
+
+
+        System.out.printf("Received from myQueue : %s %n", new String(message.getBytes()));
     }
 }

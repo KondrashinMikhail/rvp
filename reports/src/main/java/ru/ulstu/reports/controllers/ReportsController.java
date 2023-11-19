@@ -2,9 +2,8 @@ package ru.ulstu.reports.controllers;
 
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.ulstu.reports.models.DTO.SupplierDTO;
 import ru.ulstu.reports.models.DTO.SupplierNumeratedDTO;
-import ru.ulstu.reports.services.ReposrtsService;
+import ru.ulstu.reports.services.ReportsService;
 
 import java.util.List;
 
@@ -12,7 +11,7 @@ import java.util.List;
 @RequestMapping("/reports")
 @AllArgsConstructor
 public class ReportsController {
-    private final ReposrtsService service;
+    private final ReportsService service;
 
     @GetMapping("/get/active")
     public List<SupplierNumeratedDTO> getActiveSuppliers() {

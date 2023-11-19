@@ -4,6 +4,7 @@ import com.opencsv.CSVWriter;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import org.apache.commons.io.IOUtils;
+import org.json.JSONArray;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import ru.ulstu.reports.feign.FilestorageClient;
@@ -22,7 +23,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 @Service
 @AllArgsConstructor
-public class ReportsServiceImpl implements ReposrtsService {
+public class ReportsServiceImpl implements ReportsService {
     private final SupplierRepository repo;
     private final SupplierMapper mapper;
     private final FilestorageClient filestorageClient;
@@ -51,6 +52,22 @@ public class ReportsServiceImpl implements ReposrtsService {
                 .filename(fileName)
                 .build());
         return list;
+    }
+
+    @Override
+    public JSONArray getJSONByActive(Boolean isActive) {
+        List<SupplierNumeratedDTO> list = repo.findAllByIsActive(isActive).stream().map(mapper::mapToNumeratedDTO).toList();
+        AtomicInteger i = new AtomicInteger(1);
+        list.forEach(elem -> elem.setNum(i.getAndIncrement()));
+        return new JSONArray(list);
+    }
+
+    @Override
+    public JSONArray getJSONAll() {
+        List<SupplierNumeratedDTO> list = repo.findAll().stream().map(mapper::mapToNumeratedDTO).toList();
+        AtomicInteger i = new AtomicInteger(1);
+        list.forEach(elem -> elem.setNum(i.getAndIncrement()));
+        return new JSONArray(list);
     }
 
     @SneakyThrows

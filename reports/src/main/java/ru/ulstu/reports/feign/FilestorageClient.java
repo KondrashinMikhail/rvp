@@ -11,5 +11,5 @@ public interface FilestorageClient {
 //    String uploadFile(@RequestPart("file") MultipartFile file);
 
     @PostMapping("/upload/bytes")
-    public String uploadFile(@RequestBody FileDTO file);
+    String uploadFile(@RequestBody FileDTO file);
 }
