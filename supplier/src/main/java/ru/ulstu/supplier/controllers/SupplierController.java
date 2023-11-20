@@ -1,21 +1,22 @@
 package ru.ulstu.supplier.controllers;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
-import ru.ulstu.supplier.feign.ReportsClient;
 import ru.ulstu.supplier.models.DTO.SupplierCutDTO;
 import ru.ulstu.supplier.models.DTO.SupplierDTO;
 import ru.ulstu.supplier.models.DTO.SupplierNumeratedDTO;
 import ru.ulstu.supplier.services.SupplierService;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("/supplier")
 @AllArgsConstructor
 public class SupplierController {
     private final SupplierService service;
-    private final ReportsClient reportsClient;
+//    private final ReportsClient reportsClient;
 
     @PostMapping("/save")
     public SupplierDTO save(@RequestBody SupplierDTO supplier) {
@@ -53,19 +54,21 @@ public class SupplierController {
     }
 
 
-
+    @SneakyThrows
     @GetMapping("/get/all/report")
     public List<SupplierNumeratedDTO> getAllReport() {
-        return reportsClient.getAllReport();
+        return service.getAllReportAsync().get(5, TimeUnit.SECONDS);
     }
 
+    @SneakyThrows
     @GetMapping("/get/active/report")
     public List<SupplierNumeratedDTO> getActiveReport() {
-        return reportsClient.getActiveReport();
+        return service.getByActiveReportAsync(true).get(5, TimeUnit.SECONDS);
     }
 
+    @SneakyThrows
     @GetMapping("/get/disabled/report")
     public List<SupplierNumeratedDTO> getADisabledReport() {
-        return reportsClient.getDisabledReport();
+        return service.getByActiveReportAsync(false).get(5, TimeUnit.SECONDS);
     }
 }
