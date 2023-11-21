@@ -71,8 +71,8 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     @Async
-    public CompletableFuture<List<SupplierNumeratedDTO>> getAllReportAsync() {
-        List<SupplierNumeratedDTO> data = reportsClient.getAllReport();
+    public CompletableFuture<List<SupplierNumeratedDTO>> getAllReportAsync(String correlationId) {
+        List<SupplierNumeratedDTO> data = reportsClient.getAllReport(correlationId);
         CompletableFuture<List<SupplierNumeratedDTO>> list = CompletableFuture.completedFuture(data);
         log.info("Асинхронно получены отчеты о всех заказчиках");
         return list;
@@ -80,8 +80,8 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override
     @Async
-    public CompletableFuture<List<SupplierNumeratedDTO>> getByActiveReportAsync(Boolean isActive) {
-        List<SupplierNumeratedDTO> data = isActive ? reportsClient.getActiveReport() : reportsClient.getDisabledReport();
+    public CompletableFuture<List<SupplierNumeratedDTO>> getByActiveReportAsync(Boolean isActive, String correlationId) {
+        List<SupplierNumeratedDTO> data = isActive ? reportsClient.getActiveReport(correlationId) : reportsClient.getDisabledReport(correlationId);
         CompletableFuture<List<SupplierNumeratedDTO>> list = CompletableFuture.completedFuture(data);
         log.info(isActive ? "Асинхронно получены отчеты о всех активных заказчиках" : "Асинхронно получены отчеты о всех заблокированных заказчиках");
         return list;

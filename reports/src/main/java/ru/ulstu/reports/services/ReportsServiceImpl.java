@@ -33,7 +33,7 @@ public class ReportsServiceImpl implements ReportsService {
     private final RabbitMQProducerService rabbitMQService;
 
     @Override
-    public List<SupplierNumeratedDTO> getByActive(Boolean isActive) {
+    public List<SupplierNumeratedDTO> getByActive(Boolean isActive, String correlationId) {
         List<SupplierNumeratedDTO> list = repo.findAllByIsActive(isActive).stream().map(mapper::mapToNumeratedDTO).toList();
         log.info(isActive ? "Получены отчеты по всем активным заказчикам" : "Получены отчеты по всем заблокированным заказчикам");
         AtomicInteger i = new AtomicInteger(1);
@@ -46,13 +46,15 @@ public class ReportsServiceImpl implements ReportsService {
 //                        .filename(fileName)
 //                        .build());
 
-        rabbitMQService.sendFile(ROUTING_KEY, writeToJSON(fileName, convertToByte(writeCsv(list), fileName)));
+        JSONObject json = writeToJSON(fileName, convertToByte(writeCsv(list), fileName));
+        json.put("correlation-id", correlationId);
+        rabbitMQService.sendFile(ROUTING_KEY, json);
         log.info(String.format("В обменник отправлен файл %s", fileName));
         return list;
     }
 
     @Override
-    public List<SupplierNumeratedDTO> getAll() {
+    public List<SupplierNumeratedDTO> getAll(String correlationId) {
         List<SupplierNumeratedDTO> list = repo.findAll().stream().map(mapper::mapToNumeratedDTO).toList();
         log.info("Получены отчеты по всем заказчикам");
         AtomicInteger i = new AtomicInteger(1);
@@ -65,7 +67,9 @@ public class ReportsServiceImpl implements ReportsService {
 //                        .filename(fileName)
 //                        .build());
 
-        rabbitMQService.sendFile(ROUTING_KEY, writeToJSON(fileName, convertToByte(writeCsv(list), fileName)));
+        JSONObject json = writeToJSON(fileName, convertToByte(writeCsv(list), fileName));
+        json.put("correlation-id", correlationId);
+        rabbitMQService.sendFile(ROUTING_KEY, json);
         log.info(String.format("В обменник отправлен файл %s", fileName));
         return list;
     }

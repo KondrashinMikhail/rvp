@@ -22,7 +22,7 @@ public class RabbitMQConsumer {
     @SneakyThrows
     @RabbitListener(queues = QUEUE)
     public void processMyQueue(String jsonObject) {
-        log.info(String.format("Взят объект из очереди %s"), QUEUE);
+        log.info(String.format("Взят объект из очереди %s: %s", QUEUE, jsonObject));
         JSONObject object = new JSONObject(jsonObject);
         minioAdapter.uploadFile(
                 defaultBucketName,
