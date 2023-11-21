@@ -1,11 +1,13 @@
 package ru.ulstu.filestorage.minio;
 
 import io.minio.MinioClient;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
+@Log4j2
 public class MinioConfig {
     @Value("${minio.access.name}")
     private String accessKey;
@@ -16,9 +18,11 @@ public class MinioConfig {
 
     @Bean
     public MinioClient generateMinioClient() {
-        return MinioClient.builder()
+        MinioClient client = MinioClient.builder()
                 .endpoint(minioUrl)
                 .credentials(accessKey, accessSecret)
                 .build();
+        log.info(String.format("Создан клиент %s", accessKey));
+        return client;
     }
 }

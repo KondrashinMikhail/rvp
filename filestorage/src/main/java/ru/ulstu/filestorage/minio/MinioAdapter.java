@@ -4,6 +4,7 @@ import io.minio.*;
 import io.minio.messages.Bucket;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.log4j.Log4j2;
 import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Service;
 
@@ -14,12 +15,15 @@ import java.util.List;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class MinioAdapter {
     private final MinioClient minioClient;
 
     @SneakyThrows
     public List<Bucket> getAllBuckets() {
-        return minioClient.listBuckets();
+        List<Bucket> list = minioClient.listBuckets();
+        log.info("Получены все корзины");
+        return list;
     }
 
     @SneakyThrows
@@ -33,6 +37,7 @@ public class MinioAdapter {
                     MakeBucketArgs.builder()
                             .bucket(bucketName)
                             .build());
+        log.info(String.format("Создана корзина %s", bucketName));
     }
 
     @SneakyThrows
@@ -50,16 +55,19 @@ public class MinioAdapter {
                 .stream(new FileInputStream(name), file.length(), -1)
                 .build());
 
+        log.info(String.format("В корзину %s загружен файл %s", bucket, name));
         return true;
     }
 
     @SneakyThrows
     public byte[] getFile(String bucket, String key) {
-        return IOUtils.toByteArray(
+        byte[] data = IOUtils.toByteArray(
                 minioClient.getObject(
                         GetObjectArgs.builder()
                                 .bucket(bucket)
                                 .object(key)
                                 .build()));
+        log.info(String.format("Из корзины %s получен файл %s", bucket, key));
+        return data;
     }
 }

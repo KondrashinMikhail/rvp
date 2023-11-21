@@ -4,9 +4,6 @@ import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
-import ru.ulstu.reports.models.DTO.FileDTO;
-
-import java.io.File;
 
 import static ru.ulstu.reports.rabbitmq.config.RabbitConfig.EXCHANGE;
 
