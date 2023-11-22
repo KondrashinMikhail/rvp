@@ -1,4 +1,4 @@
-package ru.ulstu.reports.services;
+package ru.ulstu.reports.services.interfaces;
 
 import ru.ulstu.reports.models.DTO.SupplierNumeratedDTO;
 

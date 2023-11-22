@@ -1,4 +1,4 @@
-package ru.ulstu.reports.rabbitmq.producer;
+package ru.ulstu.reports.services.interfaces;
 
 import org.json.JSONObject;
 

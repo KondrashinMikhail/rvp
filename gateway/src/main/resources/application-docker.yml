@@ -20,10 +20,3 @@ spring:
 #            - Path=/reports/**
 #          filters:
 #            - RewritePath=/reports/(?<path>.*), /$\{path}
-#
-#        - id: filestorage
-#          uri: http://filestorage:8083
-#          predicates:
-#            - Path=/filestorage/**
-#          filters:
-#            - RewritePath=/filestorage/(?<path>.*), /$\{path}

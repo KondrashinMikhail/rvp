@@ -1,11 +1,12 @@
-package ru.ulstu.reports.rabbitmq.producer;
+package ru.ulstu.reports.services.implementations;
 
 import lombok.AllArgsConstructor;
 import org.json.JSONObject;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
+import ru.ulstu.reports.services.interfaces.RabbitMQProducerService;
 
-import static ru.ulstu.reports.rabbitmq.config.RabbitConfig.EXCHANGE;
+import static ru.ulstu.reports.configs.RabbitConfig.EXCHANGE;
 
 @Service
 @AllArgsConstructor

@@ -34,3 +34,7 @@ spring:
 filestorage:
   client:
     url: http://filestorage:8083/filestorage/
+
+jwt:
+  secret: reports_service
+  lifetime: 5s

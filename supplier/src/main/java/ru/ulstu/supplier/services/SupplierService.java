@@ -15,6 +15,6 @@ public interface SupplierService {
     SupplierDTO update(Long id, String name, Boolean isActive);
     SupplierDTO delete(Long id);
 
-    CompletableFuture<List<SupplierNumeratedDTO>> getAllReportAsync(String correlationId);
-    CompletableFuture<List<SupplierNumeratedDTO>> getByActiveReportAsync(Boolean isActive, String correlationId);
+    CompletableFuture<List<SupplierNumeratedDTO>> getAllReportAsync(String correlationId, String token);
+    CompletableFuture<List<SupplierNumeratedDTO>> getByActiveReportAsync(Boolean isActive, String correlationId, String token);
 }

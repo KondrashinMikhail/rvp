@@ -1,4 +1,4 @@
-package ru.ulstu.filestorage.rabbitmq.consumer;
+package ru.ulstu.filestorage.rabbitmq;
 
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import ru.ulstu.filestorage.minio.MinioAdapter;
 
 import static ru.ulstu.filestorage.controllers.FilestorageController.defaultBucketName;
-import static ru.ulstu.filestorage.rabbitmq.config.RabbitConfig.QUEUE;
+import static ru.ulstu.filestorage.config.RabbitConfig.QUEUE;
 
 @Component
 @EnableRabbit

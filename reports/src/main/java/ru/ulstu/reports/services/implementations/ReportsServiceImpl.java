@@ -1,4 +1,4 @@
-package ru.ulstu.reports.services;
+package ru.ulstu.reports.services.implementations;
 
 import com.opencsv.CSVWriter;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,9 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.stereotype.Service;
 import ru.ulstu.reports.models.DTO.SupplierNumeratedDTO;
 import ru.ulstu.reports.models.mappers.SupplierMapper;
-import ru.ulstu.reports.rabbitmq.producer.RabbitMQProducerService;
 import ru.ulstu.reports.repositories.SupplierRepository;
+import ru.ulstu.reports.services.interfaces.RabbitMQProducerService;
+import ru.ulstu.reports.services.interfaces.ReportsService;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -21,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import static ru.ulstu.reports.rabbitmq.config.RabbitConfig.ROUTING_KEY;
+import static ru.ulstu.reports.configs.RabbitConfig.ROUTING_KEY;
 
 @Service
 @AllArgsConstructor

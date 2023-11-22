@@ -1,4 +1,4 @@
-package ru.ulstu.filestorage.minio;
+package ru.ulstu.filestorage.config;
 
 import io.minio.MinioClient;
 import lombok.extern.log4j.Log4j2;

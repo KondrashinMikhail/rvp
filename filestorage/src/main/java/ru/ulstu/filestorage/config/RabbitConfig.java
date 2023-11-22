@@ -1,4 +1,4 @@
-package ru.ulstu.filestorage.rabbitmq.config;
+package ru.ulstu.filestorage.config;
 
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
