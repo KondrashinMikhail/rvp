@@ -4,14 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.*;
+import ru.ulstu.ParallelMergesort;
 import ru.ulstu.supplier.feign.ReportsClient;
+import ru.ulstu.supplier.models.DTO.SortedListDTO;
 import ru.ulstu.supplier.models.DTO.SupplierCutDTO;
 import ru.ulstu.supplier.models.DTO.SupplierDTO;
 import ru.ulstu.supplier.models.DTO.SupplierNumeratedDTO;
 import ru.ulstu.supplier.services.SupplierService;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static ru.ulstu.App.isSorted;
 
 @RestController
 @RequestMapping("/supplier")
@@ -68,6 +73,9 @@ public class SupplierController {
     }
 
 
+
+
+
     @SneakyThrows
     @GetMapping("/get/all/report")
     public List<SupplierNumeratedDTO> getAllReport(@RequestHeader(CORRELATION_ID) String correlationId) {
@@ -108,5 +116,26 @@ public class SupplierController {
 
     private String getTokenForReports(String correlationId) {
         return reportsClient.getToken(correlationId, "supplier");
+    }
+
+
+
+
+
+    @GetMapping("/get/sorted/{threadsCount}")
+    public SortedListDTO getSortedSuppliers(@PathVariable int threadsCount) {
+        List<Long> list = service.getAll().stream().map(SupplierDTO::getId).toList();
+        Long[] array = new Long[list.size()];
+        for (int i = 0; i < list.size(); i++) array[i] = list.get(i);
+
+         long time = ParallelMergesort.sort(array, threadsCount);
+
+        return SortedListDTO.builder()
+                .threadsCount(threadsCount)
+                .sourceList(list)
+                .sortedList(Arrays.stream(array).toList())
+                .isSorted(isSorted(array, 0, list.size()))
+                .time(time)
+                .build();
     }
 }

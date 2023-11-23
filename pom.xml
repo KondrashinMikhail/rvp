@@ -12,6 +12,7 @@
     <module>reports</module>
     <module>gateway</module>
     <module>filestorage</module>
+      <module>sorting</module>
   </modules>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
