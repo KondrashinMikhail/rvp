@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.ulstu.reports.models.DTO.SupplierNumeratedDTO;
 import ru.ulstu.reports.services.interfaces.ReportsService;
@@ -48,12 +49,17 @@ public class ReportsController {
         return service.getAll(getNewCorrelation("get-all", correlationId));
     }
 
-    @GetMapping("/token/{serviceString}")
+    @GetMapping("/token/{serviceString}/get")
     public String getToken(@RequestHeader(CORRELATION_ID) String correlationId,
                            @PathVariable("serviceString") String serviceString) {
         if (!Objects.equals(serviceString, "supplier")) return null;
         String newCorrelationId = getNewCorrelation("get-token", correlationId);
         return String.format("%s///%s", newCorrelationId, tokenUtils.generateToken());
+    }
+
+    @GetMapping("/token/is-valid/{token}")
+    public Boolean isTokenValid(@PathVariable("token") String token) {
+        return (tokenUtils.getServiceGeneratedBy(token));
     }
 
     private String getNewCorrelation(String method, String correlationId) {

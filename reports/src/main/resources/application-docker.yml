@@ -37,4 +37,4 @@ filestorage:
 
 jwt:
   secret: reports_service
-  lifetime: 5s
+  lifetime: 30m

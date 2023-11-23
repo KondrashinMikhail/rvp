@@ -24,6 +24,6 @@ public interface ReportsClient {
     List<SupplierNumeratedDTO> getDisabledReport(@RequestHeader(CORRELATION_ID) String correlationId,
                                                  @RequestHeader("Authorization") String token);
 
-    @GetMapping("/token/{service}")
+    @GetMapping("/token/{service}/get")
     String getToken(@RequestHeader(CORRELATION_ID) String correlationId, @PathVariable("service") String service);
 }
